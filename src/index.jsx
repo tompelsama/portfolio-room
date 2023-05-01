@@ -1,8 +1,9 @@
 import './style.css'
 import ReactDOM from 'react-dom/client'
-import { StrictMode } from 'react'
 import Scene from './Scene'
+import { StrictMode } from 'react'
 import { ThemeContextProvider } from './Components/ThemeContext'
+import { Analytics } from '@vercel/analytics/react'
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
 
