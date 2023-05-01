@@ -22,26 +22,26 @@ const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef }, ref) =>
     // useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
     // useHelper(lampLight, THREE.PointLight, 0.8)
 
-    const { cameraPosition, cameraRotation } = useControls('camera', {
-        cameraPosition:
-        {
-            value: { x: 0, y: 6.7, z: 10 },
-            step: 0.5
-        },
-        cameraRotation:
-        {
-            value: { x: -Math.PI / 6, y: 0, z: 0 },
-            step: 0.5
-        }
-    })
+    // const { cameraPosition, cameraRotation } = useControls('camera', {
+    //     cameraPosition:
+    //     {
+    //         value: { x: 0, y: 6.7, z: 10 },
+    //         step: 0.5
+    //     },
+    //     cameraRotation:
+    //     {
+    //         value: { x: -Math.PI / 6, y: 0, z: 0 },
+    //         step: 0.5
+    //     }
+    // })
 
-    const { lightPosition } = useControls('light', {
-        lightPosition:
-        {
-            value: { x: -1.5, y: 7, z: 3 },
-            step: 0.5
-        }
-    })
+    // const { lightPosition } = useControls('light', {
+    //     lightPosition:
+    //     {
+    //         value: { x: -1.5, y: 7, z: 3 },
+    //         step: 0.5
+    //     }
+    // })
 
     useFrame((state, delta) => {
         
@@ -92,7 +92,7 @@ const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef }, ref) =>
     }, [theme])
 
     return <>
-        <axesHelper args={[5]} />
+        {/* <axesHelper args={[5]} /> */}
 
         <PerspectiveCamera
             fov={35}
@@ -109,8 +109,8 @@ const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef }, ref) =>
             bottom={-sizes.frustrum / 2}
             near={-50}
             far={50}
-            position={[ cameraPosition.x, cameraPosition.y, cameraPosition.z ]} 
-            rotation={[ cameraRotation.x, cameraRotation.y, cameraRotation.z ]}
+            position={[ 0, 6.7, 10 ]} 
+            rotation={[  -Math.PI / 6, 0, 0 ]}
             // rotationX = {-Math.PI / 6}
             manual
             makeDefault
@@ -122,7 +122,7 @@ const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef }, ref) =>
         <directionalLight 
             ref={directionalLight}
             castShadow 
-            position={ [ lightPosition.x, lightPosition.y, lightPosition.z ] } 
+            position={ [ -1.5, 7, 3 ] } 
             intensity={ 1 } 
             shadow-normalBias={ 0.05 }
             shadow-mapSize={ [ 2048, 2048 ] }
