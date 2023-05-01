@@ -11,6 +11,6 @@ root.render(
         <ThemeContextProvider>
             <Scene />
         </ThemeContextProvider>
-        {/* <Analytics /> */}
+        <Analytics />
     </StrictMode>
 )
