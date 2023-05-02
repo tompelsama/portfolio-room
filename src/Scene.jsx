@@ -8,6 +8,7 @@ import Loader from './Components/Loader.jsx';
 import Hero from './Components/Hero.jsx';
 import FirstSection from './Components/FirstSection.jsx';
 import SecondSection from './Components/SecondSection.jsx';
+import ThirdSection from './Components/ThirdSection.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 const sizes = new Sizes()
@@ -18,8 +19,10 @@ const Scene = () => {
     const [roomRef, setRoomRef] = useState()
     const [lampRef, setLampRef] = useState()
     const [streetLampRef, setStreetLampRef] = useState()
+    const [cameraRef, setCameraRef] = useState()
     const firstSection = useRef()
     const secondSection = useRef()
+    const thirdSection = useRef()
     let mm = gsap.matchMedia();
 
     const mouseMove = (e) => {
@@ -60,7 +63,7 @@ const Scene = () => {
                 );
 
                 // Second section -----------------------------------------
-                const secondPart = gsap.timeline({
+                gsap.timeline({
                     scrollTrigger: {
                         trigger: secondSection.current,
                         start: "top top",
@@ -115,7 +118,7 @@ const Scene = () => {
                 });
 
                 // Second section -----------------------------------------
-                const secondPart = gsap.timeline({
+                gsap.timeline({
                     scrollTrigger: {
                         trigger: secondSection.current,
                         start: "top top",
@@ -127,19 +130,33 @@ const Scene = () => {
                 .to(
                     roomRef.scale,
                     {
-                        x: 0.25,
-                        y: 0.25,
-                        z: 0.25,
+                        x: 0.3,
+                        y: 0.3,
+                        z: 0.3,
                     },
                     "same"
                 )
                 .to(
                     roomRef.position,
                     {
-                        x: 1.5,
+                        x: 4,
                     },
                     "same"
                 );
+
+                // Third section -----------------------------------------
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: thirdSection.current,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 0.6,
+                        invalidateOnRefresh: true,
+                    },
+                })
+                .to(roomRef.position, {
+                    z: -8,
+                })
             }
         })
 
@@ -244,6 +261,34 @@ const Scene = () => {
 
     }, [streetLampRef, lampRef])
 
+     // Camera
+     useEffect(() => {
+
+        // Desktop
+        mm.add("(min-width: 969px)", () => {
+            if(cameraRef)
+            {
+                cameraRef.position.set(0, 6.7, 10);
+
+                // Third section -----------------------------------------
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: thirdSection.current,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 0.6,
+                        invalidateOnRefresh: true,
+                    },
+                })
+                .to(cameraRef.position, {
+                    y: 1.5,
+                    x: -7,
+                });
+            }
+        });
+
+    }, [cameraRef])
+
     return <main onMouseMove={mouseMove}>
         <div className='experience-canvas'>
             <Canvas
@@ -254,6 +299,7 @@ const Scene = () => {
                         ref={el => { setRoomRef(el); }}
                         lampRef={el => { setLampRef(el); }}
                         streetLampRef={el => { setStreetLampRef(el); }}
+                        cameraRef={el => { setCameraRef(el); }}
                         roomRotation={roomRotation} 
                     />
                 </Suspense>
@@ -263,6 +309,7 @@ const Scene = () => {
         <Hero />
         <FirstSection ref={firstSection} />
         <SecondSection ref={secondSection} />
+        <ThirdSection ref={thirdSection} />
     </main>
 }
 

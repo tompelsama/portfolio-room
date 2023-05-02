@@ -10,7 +10,7 @@ import { gsap } from 'gsap'
 
 const sizes = new Sizes()
 
-const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef }, ref) => {
+const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef, cameraRef }, ref) => {
 
     const { theme } = useTheme()
     // console.log(theme)
@@ -103,6 +103,7 @@ const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef }, ref) =>
         />
 
         <OrthographicCamera
+            ref={cameraRef}
             left={(-sizes.aspect * sizes.frustrum) / 2}
             right={(sizes.aspect * sizes.frustrum) / 2}
             top={sizes.frustrum / 2}
