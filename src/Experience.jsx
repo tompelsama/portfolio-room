@@ -10,7 +10,7 @@ import { gsap } from 'gsap'
 
 const sizes = new Sizes()
 
-const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef, cameraRef }, ref) => {
+const Experience = forwardRef(({ roomRotation, cameraRef }, ref) => {
 
     const { theme } = useTheme()
     // console.log(theme)
@@ -140,8 +140,6 @@ const Experience = forwardRef(({ roomRotation, lampRef, streetLampRef, cameraRef
             ref={ref} 
             scale={scale} 
             rotationY={roomRotation}
-            lampRef={lampRef}
-            streetLampRef={streetLampRef}
         />
 
         {/* <OrbitControls /> */}

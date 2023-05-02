@@ -1,23 +1,44 @@
-import React, { forwardRef, useRef } from "react";
+import React, { forwardRef, useRef, useState, useEffect, useImperativeHandle } from "react";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
 import { useTheme } from "./Components/ThemeContext";
 import * as THREE from 'three'
 
 const videoPath = "/textures/kda.mp4"
 
-const Model = forwardRef((
-  {scale, rotationY, lampRef, streetLampRef}, 
-  ref
-  ) => {
+const Model = forwardRef(({scale, rotationY}, ref) => {
 
   const { theme } = useTheme()
 
   const { nodes, materials } = useGLTF("/models/finale.glb");
   const videoTexture = useVideoTexture(videoPath)
   videoTexture.flipY = false
+
+  const [lampIntensity, setLampIntensity] = useState(0)
+  const [streetLampIntensity, setStreetLampIntensity] = useState(0)
+
+  const roomRef =  useRef()
+  const lampRef = useRef()
+  const streetLampRef = useRef()
+
+  useImperativeHandle(ref, () => ({
+    get room() {
+      return roomRef.current;
+    },
+    get lamp() {
+        return lampRef.current;
+    },
+    get streetLamp() {
+        return streetLampRef.current;
+    }
+  }));
+
+  useEffect(() => {
+      setLampIntensity((theme === 'dark') ? 1.2 : 0)
+      setStreetLampIntensity((theme === 'dark') ? 1 : 0)
+  }, [theme])
   
   return (
-    <group scale={scale} rotation-y={rotationY} dispose={null} ref={ref}>
+    <group scale={scale} rotation-y={rotationY} dispose={null} ref={roomRef}>
       <mesh
         castShadow
         receiveShadow
@@ -93,17 +114,14 @@ const Model = forwardRef((
           />
         }
       </mesh>
-      {
-        (theme === 'dark') ?
-        <pointLight
-          ref={streetLampRef}
-          position={[-13.29, 1.5, 20.81]} 
-          color={'#FFC000'} 
-          intensity={2} 
-          // distance={3}
-          // power={100}
-        /> : ''
-      }
+      <pointLight
+        ref={streetLampRef}
+        position={[-13.29, 1.5, 20.81]} 
+        color={'#FFC000'} 
+        intensity={streetLampIntensity} 
+        // distance={3}
+        // power={100}
+      />
       <mesh
         castShadow
         receiveShadow
@@ -643,16 +661,13 @@ const Model = forwardRef((
             />
           }
         </mesh>
-        {
-          (theme === 'dark') ?
-          <pointLight
-            ref={lampRef}
-            color={'yellow'} 
-            intensity={0.8} 
-            // distance={4}
-            // power={100}
-          /> : ''
-        }
+        <pointLight
+          ref={lampRef}
+          color={'yellow'} 
+          intensity={lampIntensity} 
+          // distance={4}
+          // power={100}
+        />
       </group>
       <group position={[9.22, 20.2, -19.2]} rotation={[0, -0.8, 0]}>
         <mesh

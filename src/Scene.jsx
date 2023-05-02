@@ -9,6 +9,7 @@ import Hero from './Components/Hero.jsx';
 import FirstSection from './Components/FirstSection.jsx';
 import SecondSection from './Components/SecondSection.jsx';
 import ThirdSection from './Components/ThirdSection.jsx';
+import { useCallback } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 const sizes = new Sizes()
@@ -30,6 +31,14 @@ const Scene = () => {
 
         setRoomRotation(rotate * 0.15)
     }
+
+    const modelRef = useCallback(node => {
+        if (node !== null) {
+            setRoomRef(node.room)
+            setLampRef(node.lamp)
+            setStreetLampRef(node.streetLamp)
+        }
+    }, []);
 
     // Room
     useEffect(() => {
@@ -296,9 +305,7 @@ const Scene = () => {
             >
                 <Suspense fallback={<Loader />}>
                     <Experience
-                        ref={el => { setRoomRef(el); }}
-                        lampRef={el => { setLampRef(el); }}
-                        streetLampRef={el => { setStreetLampRef(el); }}
+                        ref={modelRef}
                         cameraRef={el => { setCameraRef(el); }}
                         roomRotation={roomRotation} 
                     />
